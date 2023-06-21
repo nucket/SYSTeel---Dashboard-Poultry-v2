@@ -34,7 +34,7 @@ const preload = () => {
     bindEvents(){
   
       window.addEventListener( 'resize', this.onWindowResize.bind( this ));
-      
+
     }
   
     setup(){ 
@@ -43,7 +43,7 @@ const preload = () => {
     }
   
     render() {
-      
+
        this.createParticles.render()
        this.renderer.render( this.scene, this.camera )
     }
@@ -79,18 +79,18 @@ const preload = () => {
   }
   
   class CreateParticles {
-      
+
       constructor( scene, font, particleImg, camera, renderer ) {
-      
+
           this.scene = scene;
           this.font = font;
           this.particleImg = particleImg;
           this.camera = camera;
           this.renderer = renderer;
-          
+
           this.raycaster = new THREE.Raycaster();
           this.mouse = new THREE.Vector2(-200, 200);
-          
+
           this.colorChange = new THREE.Color();
   
           this.buttom = false;
@@ -127,11 +127,11 @@ const preload = () => {
           document.addEventListener( 'mousedown', this.onMouseDown.bind( this ));
           document.addEventListener( 'mousemove', this.onMouseMove.bind( this ));
           document.addEventListener( 'mouseup', this.onMouseUp.bind( this ));
-          
+
       }
   
       onMouseDown(){
-          
+
           this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
           this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
   
@@ -140,11 +140,11 @@ const preload = () => {
           const dir = vector.sub( this.camera.position ).normalize();
           const distance = - this.camera.position.z / dir.z;
           this.currenPosition = this.camera.position.clone().add( dir.multiplyScalar( distance ) );
-          
+
           const pos = this.particles.geometry.attributes.position;
           this.buttom = true;
           this.data.ease = .01;
-          
+
       }
   
       onMouseUp(){
@@ -224,7 +224,7 @@ const preload = () => {
                       }
   
                   }else{
-                  
+
                       if( mouseDistance < this.data.area ){
   
                           if(i%5==0){
@@ -278,7 +278,7 @@ const preload = () => {
           }
       }
   
-      createText(){ 
+      createText(){
   
           let thePoints = [];
   
@@ -308,31 +308,30 @@ const preload = () => {
   
           }
           shapes.push.apply( shapes, holeShapes );
-  
+
           let colors = [];
           let sizes = [];
-                      
+
           for ( let  x = 0; x < shapes.length; x ++ ) {
-  
+
               let shape = shapes[ x ];
-  
+
               const amountPoints = ( shape.type == 'Path') ? this.data.amount/2 : this.data.amount;
-  
+
               let points = shape.getSpacedPoints( amountPoints ) ;
-  
+
               points.forEach( ( element, z ) => {
-                          
                   const a = new THREE.Vector3( element.x, element.y, 0 );
                   thePoints.push( a );
                   colors.push( this.colorChange.r, this.colorChange.g, this.colorChange.b);
                   sizes.push( 1 )
-  
+
                   });
           }
-  
+
           let geoParticles = new THREE.BufferGeometry().setFromPoints( thePoints );
           geoParticles.translate( xMid, yMid, 0 );
-                  
+
           geoParticles.setAttribute( 'customColor', new THREE.Float32BufferAttribute( colors, 3 ) );
           geoParticles.setAttribute( 'size', new THREE.Float32BufferAttribute( sizes, 1) );
   
@@ -355,7 +354,7 @@ const preload = () => {
   
           this.geometryCopy = new THREE.BufferGeometry();
           this.geometryCopy.copy( this.particles.geometry );
-          
+
       }
   
       visibleHeightAtZDepth ( depth, camera ) {
@@ -377,8 +376,7 @@ const preload = () => {
       }
   
       distance (x1, y1, x2, y2){
-         
+
           return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
       }
   }
-  
